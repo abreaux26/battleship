@@ -24,8 +24,14 @@ class CellTest < Minitest::Test
 
   def test_place_ship
     @cell.place_ship(@cruiser)
-    
+
     assert_equal @cruiser, @cell.ship
     assert_equal false, @cell.empty?
+  end
+
+  def test_is_cell_fired_upon?
+    assert_equal false, @cell.fired_upon?
+    @cell.fire_upon
+    assert_equal true, @cell.fired_upon?
   end
 end
