@@ -1,3 +1,5 @@
+require './lib/cell'
+
 class Board
   attr_reader :cells
 
@@ -26,23 +28,46 @@ class Board
     @cells.keys.include? coordinate
   end
 
-#something Goes here to test the coordinates!
-
-
-  def consecutive_coordinates?(coordinates)
-
+  def valid_placement?(ship, coordinates_array)
+    empty_placement(coordinates_array) && ship.length == coordinates_array.length && consecutive_coordinates?(ship, coordinates_array)
   end
 
-  def valid_placement?(ship, coordinates)
-
+  def consecutive_coordinates?(ship, coordinates_array)
+    possible_placements(ship).include? coordinates_array
   end
 
-
-
-  def place(ship, coordinates)
-    if valid_placement?(ship, coordinates)
-      coordinates.each do |cell|
-        @cells[cell].place_ship(ship)
-        end
+  def empty_placement(coordinates_array)
+    coordinates_array.any? do |coord|
+      cells[coord].empty?
     end
   end
+
+  def place(ship, coordinates_array)
+    if valid_placement?(ship, coordinates_array)
+      coordinates_array.each do |cell|
+        @cells[cell].place_ship(ship)
+      end
+    end
+  end
+
+  def board_rows
+    @cells.keys.each_slice(4).to_a
+  end
+
+  def board_columns
+    columns = []
+    board_rows.length.times do |index|
+      columns << board_rows.map do |row|
+        row[index]
+      end
+    end
+    columns
+  end
+
+  def possible_placements(ship)
+    (board_rows + board_columns).map do |coord_array|
+      coord_array.each_cons(ship.length).to_a
+    end.flatten(1)
+  end
+
+end
