@@ -18,23 +18,31 @@ class Board
       "D1" => Cell.new("D1"),
       "D2" => Cell.new("D2"),
       "D3" => Cell.new("D3"),
-      "D4" => Cell.new("D4")
+      "D4" => Cell.new("D4"),
     }
   end
 
   def valid_coordinate?(coordinate)
-   @cells.keys.include? coordinate
- end
+    @cells.keys.include? coordinate
+  end
 
- def valid_placement?(ship, coordinates)
-   if ship.length != coordinates.length
-     false
-   elsif coordinates_are_consecutive?(coordinates)
-     false
-   elsif coordinates.map {|coordinate| @cells[coordinate].empty?}.any?
-     false
-   else
-     true
-   end
- end
-end
+#something Goes here to test the coordinates!
+
+
+  def consecutive_coordinates?(coordinates)
+
+  end
+
+  def valid_placement?(ship, coordinates)
+
+  end
+
+
+
+  def place(ship, coordinates)
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |cell|
+        @cells[cell].place_ship(ship)
+        end
+    end
+  end
