@@ -39,7 +39,7 @@ class Cell
       else
         "M"
       end
-    elsif show_ship
+    elsif show_ship && !empty?
       "S"
     else
       "."

@@ -71,17 +71,16 @@ class Board
   end
 
 
-  def render
-    ("  1 2 3 4 \n" +
-    "A #{@cells["A1"].render(true)} #{@cells["A2"].render(true)} #{@cells["A3"].render(true)} #{@cells["A4"].render(true)} \n" +
-    "B #{@cells["B1"].render(true)} #{@cells["B2"].render(true)} #{@cells["B3"].render(true)} #{@cells["B4"].render(true)} \n" +
-    "C #{@cells["C1"].render(true)} #{@cells["C2"].render(true)} #{@cells["C3"].render(true)} #{@cells["C4"].render(true)} \n" +
-    "D #{@cells["D1"].render(true)} #{@cells["D2"].render(true)} #{@cells["D3"].render(true)} #{@cells["D4"].render(true)} \n")
-  else
-    ("  1 2 3 4 \n" +
-    "A #{@cells["A1"].render(false)} #{@cells["A2"].render(false)} #{@cells["A3"].render(false)} #{@cells["A4"].render(false)} \n" +
-    "B #{@cells["B1"].render(false)} #{@cells["B2"].render(false)} #{@cells["B3"].render(false)} #{@cells["B4"].render(false)} \n" +
-    "C #{@cells["C1"].render(false)} #{@cells["C2"].render(false)} #{@cells["C3"].render(false)} #{@cells["C4"].render(false)} \n" +
-    "D #{@cells["D1"].render(false)} #{@cells["D2"].render(false)} #{@cells["D3"].render(false)} #{@cells["D4"].render(false)} \n")
+  def render(show_ship=false)
+    board_line = " 1 2 3 4 \n"
+    board_rows.each_with_index do |row, index|
+      board_line += row[index].split('').first
+      row.each_with_index do |cell, index|
+        board_line += " #{@cells[cell].render(show_ship)}"
+      end
+      board_line += " \n"
+    end
+    board_line
   end
-end 
+
+end
