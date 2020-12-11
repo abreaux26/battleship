@@ -8,12 +8,12 @@ class Game
     @computer_board = Board.new
     @player_board = Board.new
     @computer_plays = {
-      "Cruiser" => Ship.new("Cruiser", 3),
-      "Submarine" => Ship.new("Submarine", 2)
+      cruiser: Ship.new("Cruiser", 3),
+      submarine:Ship.new("Submarine", 2)
     }
     @player_plays = {
-      "Cruiser" => Ship.new("Cruiser", 3),
-      "Submarine" => Ship.new("Submarine", 2)
+      cruiser: Ship.new("Cruiser", 3),
+      submarine: Ship.new("Submarine", 2)
     }
   end
 
@@ -39,12 +39,13 @@ class Game
     computer_submarine_placement
   end
 
+
   def computer_cruiser_placement
-    # stuff
+  #stuff
   end
 
-  def computer_place_submarine
-    # stuff
+  def computer_submarine_placement
+    #stuff
   end
 
   def print_player_board
@@ -52,11 +53,10 @@ class Game
   end
 
   def player_place_ships
-    p "I have laid out my ships on the grid."
-    p "You now need to lay out your two ships."
-    p "The Cruiser is three units long and the Submarine is two units long."
+    puts "I have laid out my ships on the grid."
+    puts "You now need to lay out your two ships."
+    puts "The Cruiser is three units long and the Submarine is two units long."
     print_player_board
     player_place_cruiser
     player_place_submarine
   end
-end
