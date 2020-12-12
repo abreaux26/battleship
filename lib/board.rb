@@ -41,7 +41,7 @@ class Board
   end
 
   def empty_placement(coordinates_array)
-    coordinates_array.any? do |coord|
+    coordinates_array.all? do |coord|
       cells[coord].empty?
     end
   end
