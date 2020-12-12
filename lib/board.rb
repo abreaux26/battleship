@@ -29,7 +29,11 @@ class Board
   end
 
   def valid_placement?(ship, coordinates_array)
-    empty_placement(coordinates_array) && ship.length == coordinates_array.length && consecutive_coordinates?(ship, coordinates_array)
+    empty_coordinates = empty_placement(coordinates_array)
+    same_length = ship.length == coordinates_array.length
+    consecutive = consecutive_coordinates?(ship, coordinates_array)
+
+    empty_coordinates && same_length && consecutive
   end
 
   def consecutive_coordinates?(ship, coordinates_array)
