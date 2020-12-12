@@ -37,7 +37,7 @@ class Game
         else
           display_board
           player_fired_upon(@player_board.cells.keys.sample(1).first)
-          computer_fired_upoN
+          computer_fired_upon
         end
       end
     elsif input == "q"
