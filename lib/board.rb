@@ -76,7 +76,7 @@ class Board
 
 
   def render(show_ship=false)
-    board_line = " 1 2 3 4 \n"
+    board_line = "  1 2 3 4 \n"
     board_rows.each_with_index do |row, index|
       board_line += row[index].split('').first
       row.each_with_index do |cell, index|
