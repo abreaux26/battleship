@@ -78,6 +78,10 @@ class Game
     puts @player_board.render(true)
   end
 
+  def print_computer_board
+    puts @computer_board.render()
+  end
+
   def player_ship_placement
     p"I have laid out my ships on the grid."
     p"You now need to lay out your two ships."
@@ -117,7 +121,7 @@ class Game
     if player_input.count == 2 && @player_board.valid_placement?(@player_plays[:submarine], player_input)
       @player_board.place(@player_plays[:submarine], player_input)
 
-      print_player_board
+
     else
       p "Those are invalid coordinates. Please try again:"
       print "> "
@@ -127,9 +131,9 @@ class Game
 
   def display_board
     p "COMPUTER BOARD".center(50, "=")
-    puts @computer_board.render(true)
+    print_computer_board
     p "PLAYER BOARD".center(50, "=")
-    puts @player_board.render(true)
+    print_player_board
   end
 
   # computer firing on player board
