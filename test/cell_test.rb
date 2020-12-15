@@ -29,7 +29,7 @@ class CellTest < Minitest::Test
     assert_equal false, @cell.empty?
   end
 
-  def test_is_cell_fired_upon?
+  def test_is_cell_fired_upon
     assert_equal false, @cell.fired_upon?
     @cell.fire_upon
     assert_equal true, @cell.fired_upon?

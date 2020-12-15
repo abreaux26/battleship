@@ -51,4 +51,59 @@ class GameTest < Minitest::Test
     assert_equal 2, game.computer_submarine_placement.length
   end
 
+  def test_if_player_fired
+    game = Game.new
+    game.computer_ship_placement
+
+    actual = game.fire_upon_computer("A1")
+
+    cells_fired_upon = game.computer_board.cells.find_all do |coordinate, cell|
+      cell.fired_upon?
+    end
+
+    expected = ""
+
+    cells_fired_upon.each do |coordinate, cell|
+      if cell.render == "M"
+        expected = "Your shot on #{coordinate} was a miss."
+      elsif cell.render == "H"
+        expected = "Your shot on #{coordinate} was a direct hit."
+      elsif cell.render == "X"
+        expected = "Your shot on #{coordinate} sunk your ship."
+      end
+    end
+
+    assert_equal expected, actual
+  end
+
+  def test_if_computer_fired
+    game = Game.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    game.player_board.place(cruiser, ["A1", "A2", "A3"])
+    game.player_board.place(submarine, ["D1", "D2"])
+
+    sample_coordinate = game.player_board.cells.keys.sample(1).first
+    actual = game.player_fired_upon(sample_coordinate)
+
+    cells_fired_upon = game.player_board.cells.find_all do |coordinate, cell|
+      cell.fired_upon?
+    end
+
+    expected = ""
+
+    cells_fired_upon.each do |coordinate, cell|
+      if cell.render == "M"
+        expected = "My shot on #{coordinate} was a miss."
+      elsif cell.render == "H"
+        expected = "My shot on #{coordinate} was a direct hit."
+      elsif cell.render == "X"
+        expected = "My shot on #{coordinate} sunk your ship."
+      end
+    end
+
+    assert_equal expected, actual
+  end
+
 end

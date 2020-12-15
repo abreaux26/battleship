@@ -158,6 +158,10 @@ class Game
     puts "Enter the coordinate for your shot: "
     print "> "
     player_input = gets.chomp.upcase
+    fire_upon_computer(player_input)
+  end
+
+  def fire_upon_computer(player_input)
     if @computer_board.valid_coordinate?(player_input)
       if @computer_board.cells[player_input].fired_upon?
         p "#{player_input} has already been fired upon. Please try again:"
