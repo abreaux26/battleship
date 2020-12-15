@@ -51,18 +51,4 @@ class GameTest < Minitest::Test
     assert_equal 2, game.computer_submarine_placement.length
   end
 
-  def test_if_computer_can_fire
-    game = Game.new
-
-    game.computer_ship_placement
-    game.player_fired_upon
-    if fire == true
-      if game.player_board.render(true).include? ("H")
-      else game.player_board.render(true).include? ("M")
-      end
-    end
-
-    assert_equal true, player_fired_upon
-  end
-
 end
