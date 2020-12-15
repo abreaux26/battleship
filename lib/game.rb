@@ -25,27 +25,30 @@ class Game
     puts "Enter p to play. Enter q to quit"
     input = gets.chomp.downcase
     if input == "p"
-      computer_ship_placement
-      player_ship_placement
-      loop do
-        if @computer_plays[:cruiser].sunk? && @computer_plays[:submarine].sunk?
-          p "You won!"
-          break
-        elsif @player_plays[:cruiser].sunk? && @player_plays[:submarine].sunk?
-          p "I won!"
-          break
-        else
-          display_board
-          player_fired_upon(@player_board.cells.keys.sample(1).first)
-          computer_fired_upon
-        end
-      end
+      play_game
     elsif input == "q"
       puts "You have quit the game."
-      exit
     else
       puts "Please try again."
       start
+    end
+  end
+
+  def play_game
+    computer_ship_placement
+    player_ship_placement
+    loop do
+      if @computer_plays[:cruiser].sunk? && @computer_plays[:submarine].sunk?
+        p "You won!"
+        break
+      elsif @player_plays[:cruiser].sunk? && @player_plays[:submarine].sunk?
+        p "I won!"
+        break
+      else
+        display_board
+        player_fired_upon(@player_board.cells.keys.sample(1).first)
+        computer_fired_upon
+      end
     end
   end
 
@@ -58,8 +61,7 @@ class Game
     loop do
       randomized = @computer_board.cells.keys.shuffle![0..2]
       if @computer_board.valid_placement?(@computer_plays[:cruiser], randomized)
-        @computer_board.place(@computer_plays[:cruiser], randomized)
-        break
+        return @computer_board.place(@computer_plays[:cruiser], randomized)
       end
     end
   end
@@ -68,8 +70,7 @@ class Game
     loop do
       randomized = @computer_board.cells.keys.shuffle![0..1]
       if @computer_board.valid_placement?(@computer_plays[:submarine], randomized)
-        @computer_board.place(@computer_plays[:submarine], randomized)
-        break
+        return @computer_board.place(@computer_plays[:submarine], randomized)
       end
     end
   end
@@ -83,9 +84,9 @@ class Game
   end
 
   def player_ship_placement
-    p"I have laid out my ships on the grid."
-    p"You now need to lay out your two ships."
-    p"The Cruiser is three units long and the Submarine is two units long."
+    p "I have laid out my ships on the grid."
+    p "You now need to lay out your two ships."
+    p "The Cruiser is three units long and the Submarine is two units long."
     print_player_board
     player_cruiser_instructions
     player_cruiser_placement
