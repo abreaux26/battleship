@@ -20,7 +20,7 @@ class Board
       "D1" => Cell.new("D1"),
       "D2" => Cell.new("D2"),
       "D3" => Cell.new("D3"),
-      "D4" => Cell.new("D4"),
+      "D4" => Cell.new("D4")
     }
   end
 
@@ -29,21 +29,23 @@ class Board
   end
 
   def valid_placement?(ship, coordinates_array)
-    empty_coordinates = empty_placement(coordinates_array)
-    same_length = ship.length == coordinates_array.length
-    consecutive = consecutive_coordinates?(ship, coordinates_array)
+    empty_placement?(coordinates_array) &&
+    valid_ship_length?(ship, coordinates_array) &&
+    consecutive_coordinates?(ship, coordinates_array)
+  end
 
-    empty_coordinates && same_length && consecutive
+  def empty_placement?(coordinates_array)
+    coordinates_array.any? do |coord|
+      cells[coord].empty?
+    end
+  end
+
+  def valid_ship_length?(ship, coordinates_array)
+    ship.length == coordinates_array.length
   end
 
   def consecutive_coordinates?(ship, coordinates_array)
     possible_placements(ship).include? coordinates_array
-  end
-
-  def empty_placement(coordinates_array)
-    coordinates_array.any? do |coord|
-      cells[coord].empty?
-    end
   end
 
   def place(ship, coordinates_array)
@@ -61,30 +63,48 @@ class Board
   def board_columns
     columns = []
     board_rows.length.times do |index|
-      columns << board_rows.map do |row|
-        row[index]
-      end
+      columns << new_column(index)
     end
     columns
   end
 
-  def possible_placements(ship)
-    (board_rows + board_columns).map do |coord_array|
-      coord_array.each_cons(ship.length).to_a
-    end.flatten(1)
+  def new_column(index)
+    board_rows.map do |row|
+      row[index]
+    end
   end
 
+  def possible_placements(ship)
+    rows_and_columns.flat_map do |coordinates_array|
+      consecutive_placements(coordinates_array, ship)
+    end
+  end
+
+  def rows_and_columns
+    (board_rows + board_columns)
+  end
+
+  def consecutive_placements(coordinates_array, ship)
+    coordinates_array.each_cons(ship.length).to_a
+  end
 
   def render(show_ship=false)
-    board_line = "  1 2 3 4 \n"
-    board_rows.each_with_index do |row, index|
-      board_line += row[index].split('').first
-      row.each_with_index do |cell, index|
-        board_line += " #{@cells[cell].render(show_ship)}"
-      end
-      board_line += " \n"
-    end
-    board_line
+    @board_line = "  1 2 3 4 \n"
+    get_board_rows(show_ship)
+    @board_line
   end
 
+  def get_board_rows(show_ship)
+    board_rows.each_with_index do |row, index|
+      @board_line += row[index].split('').first
+      get_row(row,show_ship)
+      @board_line += " \n"
+    end
+  end
+
+  def get_row(row,show_ship)
+    row.each_with_index do |cell, index|
+      @board_line += " #{@cells[cell].render(show_ship)}"
+    end
+  end
 end
