@@ -115,11 +115,10 @@ class Game
   end
 
   def player_cruiser_instructions
-    p "Enter the squares for the Cruiser (3 spaces):"
+    p "Enter the squares for the #{@player_ships[:cruiser].name} (#{@player_ships[:cruiser].length} spaces):"
     print "> "
   end
 
-  end
   def player_cruiser_placement
      player_input = gets.chomp.upcase.split(" ")
      if player_input.count == 3 && @player_board.valid_placement?(@player_ships[:cruiser], player_input)
@@ -132,7 +131,7 @@ class Game
   end
 
   def player_submarine_instructions
-    p "Enter the squares for the Submarine (2 spaces):"
+    p "Enter the squares for the #{@player_ships[:submarine].name} (#{@player_ships[:submarine].length} spaces):"
     print "> "
   end
 
@@ -166,7 +165,6 @@ class Game
     end
   end
 
-
   def fire_upon_player(coordinate)
     @player_board.cells[coordinate].fire_upon
     if @player_board.cells[coordinate].render == "M"
@@ -178,8 +176,6 @@ class Game
     end
   end
 
-
-  # player firing on computer board
   def computer_fired_upon
     puts "Enter the coordinate for your shot: "
     print "> "
@@ -194,18 +190,22 @@ class Game
         print "> "
         computer_fired_upon
       else
-        @computer_board.cells[player_input].fire_upon
-        if @computer_board.cells[player_input].render == "M"
-          p "Your shot on #{player_input} was a miss."
-        elsif @computer_board.cells[player_input].render == "H"
-          p "Your shot on #{player_input} was a direct hit."
-        elsif @computer_board.cells[player_input].render == "X"
-          p "Your shot on #{player_input} sunk my ship."
-        end
+        player_fire_on_computer(player_input)
       end
     else
-      p "Invalid coordinate. Please try again:"
-      print "> "
+      invalid_coordinate_alert
       computer_fired_upon
     end
   end
+
+  def player_fire_on_computer(player_input)
+    @computer_board.cells[player_input].fire_upon
+    if @computer_board.cells[player_input].render == "M"
+      p "Your shot on #{player_input} was a miss."
+    elsif @computer_board.cells[player_input].render == "H"
+      p "Your shot on #{player_input} was a direct hit."
+    elsif @computer_board.cells[player_input].render == "X"
+      p "Your shot on #{player_input} sunk my ship."
+    end
+  end
+end
