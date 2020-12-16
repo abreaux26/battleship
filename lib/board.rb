@@ -35,8 +35,8 @@ class Board
   end
 
   def empty_placement?(coordinates_array)
-    coordinates_array.any? do |coord|
-      cells[coord].empty?
+    coordinates_array.all? do |coord|
+      @cells[coord].empty?
     end
   end
 
@@ -90,19 +90,23 @@ class Board
 
   def render(show_ship=false)
     @board_line = "  1 2 3 4 \n"
-    get_board_rows(show_ship)
+    get_render_board_rows(show_ship)
     @board_line
   end
 
-  def get_board_rows(show_ship)
+  def get_render_board_rows(show_ship)
     board_rows.each_with_index do |row, index|
-      @board_line += row[index].split('').first
-      get_row(row,show_ship)
+      @board_line += get_column_letter(row, index)
+      get_render_row(row, show_ship)
       @board_line += " \n"
     end
   end
 
-  def get_row(row,show_ship)
+  def get_column_letter(row, index)
+    row[index].split('').first
+  end
+
+  def get_render_row(row, show_ship)
     row.each_with_index do |cell, index|
       @board_line += " #{@cells[cell].render(show_ship)}"
     end
